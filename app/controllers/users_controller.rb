@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user, only: [:index, :update, :edit, :destroy]
-  before_action :correct_user,   only: [:update, :edit]
-  before_action :admin_user,     only: :destroy
+  before_action :logged_in_user,  only: [:index, :update, :edit, :destroy]
+  before_action :correct_user,    only: [:update, :edit]
+  before_action :admin_user,      only: :destroy
+  before_action :no_second_signup, only: :new
 
   def index
     @users = User.paginate(page: params[:page])
@@ -18,11 +19,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in @user
-      flash[:success] = "Welcome to my micropost app"
-      redirect_to @user
+      @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account."
+      redirect_to root_url
     else
-    render 'new'
+      render 'new'
     end
   end
 
@@ -62,6 +63,11 @@ class UsersController < ApplicationController
       flash[:danger] = "Please log in to access this page"
       redirect_to login_url
     end
+  end
+
+  #redirects from signup if logged in
+  def no_second_signup
+    redirect_to current_user unless !logged_in?
   end
 
 #confirms correct user
