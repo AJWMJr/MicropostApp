@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
 
   private
 
+  #redirects from signup/login if currently logged in
+  def already_logged_in
+    redirect_to current_user unless !logged_in?
+  end
+
   #confirms a logged in user
   def logged_in_user
     unless logged_in?

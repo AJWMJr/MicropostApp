@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_action :logged_in_user,  only: [:index, :update, :edit, :destroy]
-  before_action :correct_user,    only: [:update, :edit]
-  before_action :admin_user,      only: :destroy
-  before_action :no_second_signup, only: :new
+  before_action :logged_in_user,    only: [:index, :update, :edit, :destroy]
+  before_action :correct_user,      only: [:update, :edit]
+  before_action :admin_user,        only: :destroy
+  before_action :already_logged_in, only: :new
 
   def index
     @users = User.paginate(page: params[:page])
@@ -55,12 +55,7 @@ class UsersController < ApplicationController
                                                          :password_confirmation)
   end
 
-  # Before Filters:
-
-  #redirects from signup if logged in
-  def no_second_signup
-    redirect_to current_user unless !logged_in?
-  end
+# Before Filters:
 
 #confirms correct user
   def correct_user
