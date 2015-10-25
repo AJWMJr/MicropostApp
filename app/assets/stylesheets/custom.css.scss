@@ -54,6 +54,8 @@ p {
 
 /* forms */
 
+.new_micropost { height: 220px; }
+
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
@@ -146,8 +148,17 @@ aside {
   }
 }
 
-span.picture {
+div.picture {
   margin-top: 10px;
+  a {
+    border-radius: 5px !important;
+    padding: 1px !important;
+    text-decoration: none !important;
+    background-color: #1B1515 !important;
+    color: white !important;
+    box-shadow: gray 2px 2px;
+    &:hover { box-shadow: none; }
+  }
   input {
     border: 0;
   }
